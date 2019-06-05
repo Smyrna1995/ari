@@ -11,6 +11,9 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+from decouple 
+import config
+import dj_database_url
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -23,7 +26,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '-(!w4wx5fc34(gk703+u40_sctk-m406q^ibl)(f27t!snw45#'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = false
 
 ALLOWED_HOSTS = []
 
@@ -100,7 +103,7 @@ DATABASES = {
         'ENGINE' : 'django.db.backends.postgresql_psycopg2',
         'NAME' : 'arquidb',
         'USER': 'postgres',
-        'PASSWORD': '14072017',
+        'PASSWORD': '959907',
         'HOST': 'localhost',
         'PORT': '5432'
     }
@@ -144,3 +147,24 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+try:
+    from  arqui.local_settings import * 
+except ImportError:
+    pass
+if not DEBUG:
+    #-(!w4wx5fc34(gk703+u40_sctk-m406q^ibl)(f27t!snw45#
+    SECRET_KEY = 'SECRET_KEY'
+    DATABASES = {
+       'default': {
+           'ENGINE' : 'django.db.backends.postgressql_psycopg2',
+           'NAME' : 'DB_NAME',
+           'USER': 'DB_USER',
+           'PASSWORD': 'DB_PASSWORD',
+           'HOST': 'DB_HOST',
+           'PORT': 'DB_PORT',
+       }
+    }
+
+    import django_heroku
+    django_heroku.settings(locals())
